@@ -1,0 +1,41 @@
+﻿<Window x:Class="AudioPlayer2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AudioPlayer2" xmlns:viewmodel="clr-namespace:AudioPlayer2.ViewModel" 
+        d:DataContext="{d:DesignInstance Type=viewmodel:ApplicationViewModel}"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Window.DataContext>
+        <viewmodel:ApplicationViewModel/>
+    </Window.DataContext>
+    <Grid >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.4*"/>
+            <ColumnDefinition Width="0.01*"/>
+            <ColumnDefinition Width="0.6*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel>
+            <TextBlock FontSize="20" Text="{Binding Path=SelectedAudio.Name}"  />
+            <TextBlock FontSize="16" Text="{Binding Path=SelectedAudio.FilePath}" />
+        </StackPanel>
+        <GridSplitter Grid.Column="1" Width="3" HorizontalAlignment="Center" VerticalAlignment="Stretch"> </GridSplitter>
+        
+            <DockPanel Grid.Column="2" Background="Aqua">
+            <ListBox DockPanel.Dock="Top" ItemsSource="{Binding Audios}" SelectedItem="{Binding SelectedAudio}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="5">
+                            <TextBlock FontSize="20" Text="{Binding Path=Name}"  />
+                            <TextBlock FontSize="16" Text="{Binding Path=FilePath}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <Button  DockPanel.Dock="Left" Command="{Binding Play}" CommandParameter="{Binding SelectedAudio}"> начать </Button>
+            <Button  DockPanel.Dock="Bottom" Command="{Binding Pause}">остановать</Button>
+        </DockPanel>
+        
+    </Grid>
+</Window>
