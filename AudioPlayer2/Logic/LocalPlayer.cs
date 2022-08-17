@@ -1,17 +1,18 @@
 ﻿using AudioPlayer2.Logic.Interfaces;
-using NAudio.Wave;
 using System;
+using System.Windows.Media;
 
 namespace AudioPlayer2.Logic
 {
     internal class LocalPlayer : IAudioPlayer
     {
-        private WaveOutEvent outputDevice;
+
+        private MediaPlayer outputDevice;
         public IAudioSource AudioSource { get; set; }
         public LocalPlayer(IAudioSource audioSource) 
         { 
             AudioSource = audioSource;
-            outputDevice = new WaveOutEvent();
+            outputDevice = new MediaPlayer();
         }
 
         public void GoTo()
@@ -27,12 +28,8 @@ namespace AudioPlayer2.Logic
         public void Play()
         {
             var audio = AudioSource.GetPlayable();
-            outputDevice.Init(audio);
+            outputDevice.Open(new Uri(audio, UriKind.Relative));
             outputDevice.Play();
-        }
-        ~LocalPlayer()
-        {
-            outputDevice.Dispose();
         }
     }
 }
