@@ -24,6 +24,10 @@ namespace AudioPlayer2.Logic
         {
             outputDevice?.Pause();
         }
+        public void Stop()
+        {
+            outputDevice.Stop();
+        }
 
         public void Play()
         {

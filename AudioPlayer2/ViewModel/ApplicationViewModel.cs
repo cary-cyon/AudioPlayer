@@ -15,6 +15,7 @@ namespace AudioPlayer2.ViewModel
         private AudioController _controller;
         private RelayCommand _play;
         private RelayCommand _pause;
+        private RelayCommand _stop;
         public RelayCommand Play {
             get
             {
@@ -31,7 +32,12 @@ namespace AudioPlayer2.ViewModel
             }
         }
         
-        private RelayCommand Stop { get; set; }
+        public RelayCommand Stop { 
+            get 
+            {
+                return _stop ?? (_stop = new RelayCommand(_controller.StopAudio));
+            }
+        }
 
         private LocalDbContext _context;
         public ApplicationViewModel()
