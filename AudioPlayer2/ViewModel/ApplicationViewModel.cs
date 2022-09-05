@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows;
 
 namespace AudioPlayer2.ViewModel
 {
@@ -16,6 +17,7 @@ namespace AudioPlayer2.ViewModel
         private RelayCommand _play;
         private RelayCommand _pause;
         private RelayCommand _stop;
+
         public RelayCommand Play {
             get
             {
@@ -45,18 +47,32 @@ namespace AudioPlayer2.ViewModel
             _context = new LocalDbContext();
             Audios = _context.Audios.ToList();
             _controller = new AudioController();
+            _controller.SetDurationControlToPlayer(SetDuration);
         }
         private List<Audio> _audios;
         private Audio _selectedAudio;
+        private Duration _duration;
+        public Duration Duration {
+            get { return _duration; }
+            set { _duration = value; OnPropertyChanged(nameof(Duration)); }
+        }
+        public void SetDuration(Duration duration)
+        {
+            Duration = duration;
+        }
         public Audio SelectedAudio {
             get { return _selectedAudio; }
-            set { _selectedAudio = value; OnPropertyChanged(nameof(SelectedAudio)); } 
+            set { 
+                _selectedAudio = value;
+                _controller.SetSource(_selectedAudio.FilePath);
+                OnPropertyChanged(nameof(SelectedAudio)); 
+            } 
         }
 
         public List<Audio> Audios 
         {
             get { return _audios; }
-            set { _audios = value; OnPropertyChanged("Audios");}
+            set { _audios = value; OnPropertyChanged(nameof(Audios)); }
         }
         public event PropertyChangedEventHandler? PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")

@@ -1,5 +1,6 @@
 ﻿using AudioPlayer2.Logic.Interfaces;
 using System;
+using System.Windows;
 using System.Windows.Media;
 
 namespace AudioPlayer2.Logic
@@ -8,11 +9,22 @@ namespace AudioPlayer2.Logic
     {
 
         private MediaPlayer outputDevice;
-        public IAudioSource AudioSource { get; set; }
-        public LocalPlayer(IAudioSource audioSource) 
+        public IAudioSource _audioSource;
+        public Action<Duration> SetDuration { get; set; }
+        public IAudioSource AudioSource {
+            get {return _audioSource;}
+            set { _audioSource = value; outputDevice.Open(new Uri(_audioSource.GetPlayable(), UriKind.Relative)); }
+        }
+        public LocalPlayer() 
         { 
-            AudioSource = audioSource;
             outputDevice = new MediaPlayer();
+            outputDevice.MediaOpened += OutputDevice_MediaOpened;
+        }
+
+        private void OutputDevice_MediaOpened(object? sender, EventArgs e)
+        {
+            var duration = outputDevice.NaturalDuration;
+            SetDuration(duration);
         }
 
         public void GoTo()
@@ -34,6 +46,10 @@ namespace AudioPlayer2.Logic
             var audio = AudioSource.GetPlayable();
             outputDevice.Open(new Uri(audio, UriKind.Relative));
             outputDevice.Play();
+        }
+        public Duration Duration
+        {
+            get { return outputDevice.NaturalDuration; }
         }
     }
 }

@@ -4,10 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AudioPlayer2" xmlns:viewmodel="clr-namespace:AudioPlayer2.ViewModel"
+        xmlns:converter="clr-namespace:AudioPlayer2.Converter"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
         d:DataContext="{d:DesignInstance Type=viewmodel:ApplicationViewModel}"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <converter:DurationConverter x:Key="durationConverter" />
+    </Window.Resources>
     <Window.DataContext>
         <viewmodel:ApplicationViewModel/>
     </Window.DataContext>
@@ -23,11 +27,12 @@
         </StackPanel>
         <GridSplitter Grid.Column="1" Width="3" HorizontalAlignment="Center" VerticalAlignment="Stretch"> </GridSplitter>
         
-            <DockPanel Grid.Column="2" Background="Aqua">
-            <ListBox DockPanel.Dock="Top" ItemsSource="{Binding Audios}" SelectedItem="{Binding SelectedAudio}">
+            <StackPanel Grid.Column="2" Background="Aqua">
+            <ListBox ItemsSource="{Binding Audios}" SelectedItem="{Binding SelectedAudio}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">
                         <i:InvokeCommandAction Command="{Binding Stop}"/>
+                        
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <ListBox.ItemTemplate>
@@ -39,9 +44,11 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <Button  DockPanel.Dock="Left" Command="{Binding Play}" CommandParameter="{Binding SelectedAudio}"> начать </Button>
-            <Button  DockPanel.Dock="Bottom" Command="{Binding Pause}">остановать</Button>
-        </DockPanel>
+            <Slider></Slider>
+            <TextBlock Text="{Binding Duration, Converter={StaticResource durationConverter} }"></TextBlock>
+            <Button Command="{Binding Play}" CommandParameter="{Binding SelectedAudio}"> начать </Button>
+            <Button Command="{Binding Pause}">остановать</Button>
+        </StackPanel>
         
     </Grid>
 </Window>
