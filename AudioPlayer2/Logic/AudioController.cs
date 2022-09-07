@@ -30,13 +30,10 @@ namespace AudioPlayer2.Logic
         {
             pleyer.Play();
         }
-        //TODO
         public void GoTo(object obj)
         {
-            //TODO
-            // obj is 
             double SliderValue = (double)obj;
-            pleyer.GoTo();
+            pleyer.GoTo(SliderValue);
         }
         public AudioController()
         {

@@ -18,9 +18,11 @@ namespace AudioPlayer2.ViewModel
         private RelayCommand _play;
         private RelayCommand _pause;
         private RelayCommand _stop;
+        private RelayCommand _setPlayerPosition;
         private List<Audio> _audios;
         private Audio _selectedAudio;
         private Duration _duration;
+        private double _durationInMilliSeconds;
         
         
         public ApplicationViewModel()
@@ -55,11 +57,24 @@ namespace AudioPlayer2.ViewModel
                 return _stop ?? (_stop = new RelayCommand(_controller.StopAudio));
             }
         }
+        public RelayCommand SetPlayerPosition
+        {
+            get 
+            { 
+                return _setPlayerPosition ?? (_setPlayerPosition = new RelayCommand(_controller.GoTo)); 
+            }
+        }
         #endregion
         #region Properties for XAML Bindings
         public Duration Duration {
             get { return _duration; }
-            set { _duration = value; OnPropertyChanged(nameof(Duration)); }
+            set
+            {
+                _duration = value;
+                DurationInMilliSeconds = _duration.TimeSpan.TotalMilliseconds;
+                OnPropertyChanged(nameof(Duration));
+            }
+
         }
         //If Audio Selected must be set AudioSource
         public Audio SelectedAudio
@@ -77,6 +92,10 @@ namespace AudioPlayer2.ViewModel
         {
             get { return _audios; }
             set { _audios = value; OnPropertyChanged(nameof(Audios)); }
+        }
+        public double DurationInMilliSeconds { 
+            get { return _durationInMilliSeconds; }
+            set { _durationInMilliSeconds = value; OnPropertyChanged(nameof(DurationInMilliSeconds)); }
         }
         #endregion
         //Need for set Duration in MediaOpenedEvent

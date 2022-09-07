@@ -27,9 +27,10 @@ namespace AudioPlayer2.Logic
             SetDuration(outputDevice.NaturalDuration);
         }
 
-        public void GoTo()
+        public void GoTo(double SliderPosition)
         {
-            throw new NotImplementedException();
+            TimeSpan ts = new TimeSpan(0, 0, 0, 0, (int)SliderPosition);
+            outputDevice.Position = ts;
         }
         //Pause track
         public void Pause()
@@ -47,6 +48,11 @@ namespace AudioPlayer2.Logic
             var audio = AudioSource.GetPlayable();
             outputDevice.Open(new Uri(audio, UriKind.Relative));
             outputDevice.Play();
+        }
+
+        public void GoTo()
+        {
+            throw new NotImplementedException();
         }
     }
 }

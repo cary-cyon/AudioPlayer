@@ -44,7 +44,14 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <Slider></Slider>
+            <Slider  Maximum="{Binding DurationInMilliSeconds}" x:Name="PositionSlider">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="ValueChanged">
+                        <i:InvokeCommandAction Command="{Binding SetPlayerPosition}" 
+                                               CommandParameter="{Binding Value ,RelativeSource={RelativeSource  Mode=FindAncestor, AncestorType={x:Type Slider}}}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Slider>
             <TextBlock Text="{Binding Duration, Converter={StaticResource durationConverter} }"></TextBlock>
             <Button Command="{Binding Play}" CommandParameter="{Binding SelectedAudio}"> начать </Button>
             <Button Command="{Binding Pause}">остановать</Button>
