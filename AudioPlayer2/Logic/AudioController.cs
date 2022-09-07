@@ -13,6 +13,7 @@ namespace AudioPlayer2.Logic
         {
             pleyer.Pause();
         }
+        //Set delegate which can set Duration in ViewModel. Use in MediaOpen Event
         public void SetDurationControlToPlayer(Action<Duration> del)
         {
             pleyer.SetDuration = del;
@@ -23,21 +24,11 @@ namespace AudioPlayer2.Logic
         }
         public void StopAudio(object obj)
         {
-            if(pleyer != null)
-                pleyer.Stop();
+            pleyer.Stop();
         }
         public void PlayAudio(object obj)
         {
-            var audio = obj as Audio;
-            if (audio != null)
-            {
-                pleyer.AudioSource = new LocalSource(audio.FilePath);
-                pleyer.Play();
-            }
-        }
-        public Duration GetDuration()
-        {
-            return pleyer.Duration;
+            pleyer.Play();
         }
         //TODO
         public void GoTo(object obj)

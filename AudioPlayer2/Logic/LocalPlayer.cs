@@ -20,36 +20,33 @@ namespace AudioPlayer2.Logic
             outputDevice = new MediaPlayer();
             outputDevice.MediaOpened += OutputDevice_MediaOpened;
         }
-
+        //NaturalDuration can't be get bеfor MediaOpened
+        //This method use delegat from ApplicationViewModel for set it
         private void OutputDevice_MediaOpened(object? sender, EventArgs e)
         {
-            var duration = outputDevice.NaturalDuration;
-            SetDuration(duration);
+            SetDuration(outputDevice.NaturalDuration);
         }
 
         public void GoTo()
         {
             throw new NotImplementedException();
         }
-
+        //Pause track
         public void Pause()
         {
             outputDevice?.Pause();
         }
+        //Stop track. Can't be continue.
         public void Stop()
         {
             outputDevice.Stop();
         }
-
+        //Method start playing Audio. Starts from initial track
         public void Play()
         {
             var audio = AudioSource.GetPlayable();
             outputDevice.Open(new Uri(audio, UriKind.Relative));
             outputDevice.Play();
-        }
-        public Duration Duration
-        {
-            get { return outputDevice.NaturalDuration; }
         }
     }
 }
