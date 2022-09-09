@@ -25,6 +25,7 @@ namespace AudioPlayer2.Logic
         public void StopAudio(object obj)
         {
             pleyer.Stop();
+            
         }
         public void PlayAudio(object obj)
         {
@@ -32,13 +33,17 @@ namespace AudioPlayer2.Logic
         }
         public void GoTo(object obj)
         {
-            double SliderValue = (double)obj;
+            double SliderValue = obj != null ? (double)obj : 0;
             pleyer.GoTo(SliderValue);
         }
         public AudioController()
         {
             pleyer = new LocalPlayer();
         }
-        
+
+        internal void SetPositionControlToPlayer(Action increasePositionByOneSecond)
+        {
+            pleyer.IncreasePositionByOneSec += increasePositionByOneSecond;
+        }
     }
 }

@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AudioPlayer2" xmlns:viewmodel="clr-namespace:AudioPlayer2.ViewModel"
         xmlns:converter="clr-namespace:AudioPlayer2.Converter"
+        xmlns:extensions="clr-namespace:AudioPlayer2.Extensions"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
         d:DataContext="{d:DesignInstance Type=viewmodel:ApplicationViewModel}"
         mc:Ignorable="d"
@@ -32,7 +33,7 @@
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">
                         <i:InvokeCommandAction Command="{Binding Stop}"/>
-                        
+                        <i:InvokeCommandAction Command="{Binding SetPlayerPosition}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <ListBox.ItemTemplate>
@@ -44,13 +45,8 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <Slider  Maximum="{Binding DurationInMilliSeconds}" x:Name="PositionSlider">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="ValueChanged">
-                        <i:InvokeCommandAction Command="{Binding SetPlayerPosition}" 
-                                               CommandParameter="{Binding Value ,RelativeSource={RelativeSource  Mode=FindAncestor, AncestorType={x:Type Slider}}}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
+            <Slider Value="{Binding Position}" Maximum="{Binding DurationInMilliSeconds}" 
+                    extensions:SliderExtension.DragCompletedCommand="{Binding SetPlayerPosition}">
             </Slider>
             <TextBlock Text="{Binding Duration, Converter={StaticResource durationConverter} }"></TextBlock>
             <Button Command="{Binding Play}" CommandParameter="{Binding SelectedAudio}"> начать </Button>

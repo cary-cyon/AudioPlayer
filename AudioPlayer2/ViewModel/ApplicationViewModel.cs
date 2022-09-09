@@ -23,7 +23,7 @@ namespace AudioPlayer2.ViewModel
         private Audio _selectedAudio;
         private Duration _duration;
         private double _durationInMilliSeconds;
-        
+        private double _position;
         
         public ApplicationViewModel()
         {
@@ -31,6 +31,7 @@ namespace AudioPlayer2.ViewModel
             Audios = _context.Audios.ToList();
             _controller = new AudioController();
             _controller.SetDurationControlToPlayer(SetDuration);
+            _controller.SetPositionControlToPlayer(IncreasePositionByOneSecond);
         }
         #region Commands GetProperties
         public RelayCommand Play
@@ -97,8 +98,16 @@ namespace AudioPlayer2.ViewModel
             get { return _durationInMilliSeconds; }
             set { _durationInMilliSeconds = value; OnPropertyChanged(nameof(DurationInMilliSeconds)); }
         }
+        public double Position {
+            get { return _position; }
+            set { _position = value; OnPropertyChanged(nameof(Position)); }
+        }
         #endregion
         //Need for set Duration in MediaOpenedEvent
+        public void IncreasePositionByOneSecond()
+        {
+            Position += 1000;
+        }
         public void SetDuration(Duration duration)
         {
             Duration = duration;

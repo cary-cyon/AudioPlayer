@@ -15,6 +15,7 @@ namespace AudioPlayer2.Data
         {
             optionsBuilder.UseSqlServer(@"Server=localhost;Database=AudioPlayer;Trusted_Connection=True;");
         }
+
     }
     
 }
