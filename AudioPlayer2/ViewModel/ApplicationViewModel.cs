@@ -13,12 +13,13 @@ namespace AudioPlayer2.ViewModel
 {
     public class ApplicationViewModel : INotifyPropertyChanged
     {
-        private LocalDbContext _context;
-        private AudioController _controller;
+        private readonly LocalDbContext _context;
+        private readonly AudioController _controller;
         private RelayCommand _play;
         private RelayCommand _pause;
         private RelayCommand _stop;
         private RelayCommand _setPlayerPosition;
+        private RelayCommand _setViewModelPositionOrZeroIfObjNull;
         private List<Audio> _audios;
         private Audio _selectedAudio;
         private Duration _duration;
@@ -63,6 +64,22 @@ namespace AudioPlayer2.ViewModel
             get 
             { 
                 return _setPlayerPosition ?? (_setPlayerPosition = new RelayCommand(_controller.GoTo)); 
+            }
+        }
+        public RelayCommand SetViewModelPositionOrZeroIfObjNull
+        {
+            get
+            {
+                return _setViewModelPositionOrZeroIfObjNull ?? (
+                    _setViewModelPositionOrZeroIfObjNull = new RelayCommand(
+                        (object obj) => {
+                            if(obj != null)
+                                SetViewModelPosition((double)obj);
+                            else
+                                SetViewModelPosition(0);
+                            }
+                        )
+                    );
             }
         }
         #endregion
@@ -111,6 +128,11 @@ namespace AudioPlayer2.ViewModel
         public void SetDuration(Duration duration)
         {
             Duration = duration;
+        }
+
+        public void SetViewModelPosition(double position)
+        {
+            Position = position;
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

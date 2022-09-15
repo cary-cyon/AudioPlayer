@@ -9,8 +9,8 @@ namespace AudioPlayer2.Logic
     internal class LocalPlayer : IAudioPlayer
     {
 
-        private MediaPlayer outputDevice;
-        private DispatcherTimer dispatcherTimer;
+        private readonly MediaPlayer outputDevice;
+        private readonly DispatcherTimer dispatcherTimer;
         public IAudioSource _audioSource;
         public Action<Duration> SetDuration { get; set; }
         public Action IncreasePositionByOneSec { get; set; } 

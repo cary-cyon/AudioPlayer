@@ -33,7 +33,7 @@
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">
                         <i:InvokeCommandAction Command="{Binding Stop}"/>
-                        <i:InvokeCommandAction Command="{Binding SetPlayerPosition}"/>
+                        <i:InvokeCommandAction Command="{Binding SetViewModelPositionOrZeroIfObjNull}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <ListBox.ItemTemplate>
