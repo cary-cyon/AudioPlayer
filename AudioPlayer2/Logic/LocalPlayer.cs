@@ -2,7 +2,7 @@
 using System;
 using System.Windows;
 using System.Windows.Media;
-using System.Windows.Threading;
+
 
 namespace AudioPlayer2.Logic
 {
@@ -10,7 +10,7 @@ namespace AudioPlayer2.Logic
     {
 
         private readonly MediaPlayer outputDevice;
-        private readonly DispatcherTimer dispatcherTimer;
+        
         public IAudioSource _audioSource;
         public Action<Duration> SetDuration { get; set; }
         public Action IncreasePositionByOneSec { get; set; } 
@@ -22,9 +22,6 @@ namespace AudioPlayer2.Logic
         { 
             outputDevice = new MediaPlayer();
             outputDevice.MediaOpened += OutputDevice_MediaOpened;
-            dispatcherTimer = new DispatcherTimer();
-            dispatcherTimer.Interval = TimeSpan.FromSeconds(1);
-            dispatcherTimer.Tick += DispatcherTimer_Tick;
         }
         //NaturalDuration can't be get bеfor MediaOpened
         //This method use delegat from ApplicationViewModel for set it
@@ -42,27 +39,20 @@ namespace AudioPlayer2.Logic
         public void Pause()
         {
             outputDevice?.Pause();
-            dispatcherTimer?.Stop();
         }
         //Stop track. Can't be continue.
         public void Stop()
         {
             outputDevice.Stop();
-            dispatcherTimer?.Stop();
         }
         //Method start playing Audio. Starts from initial track
         public void Play()
         {
             var audio = AudioSource.GetPlayable();
-            outputDevice.Open(new Uri(audio, UriKind.Relative));
             outputDevice.Play();
-            dispatcherTimer.Start();
         }
 
-        private void DispatcherTimer_Tick(object? sender, EventArgs e)
-        {
-            IncreasePositionByOneSec();
-        }
+
 
         public void GoTo()
         {

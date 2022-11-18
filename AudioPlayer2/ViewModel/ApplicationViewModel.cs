@@ -25,7 +25,7 @@ namespace AudioPlayer2.ViewModel
         private Duration _duration;
         private double _durationInMilliSeconds;
         private double _position;
-        
+
         public ApplicationViewModel()
         {
             _context = new LocalDbContext();

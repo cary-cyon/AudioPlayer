@@ -1,6 +1,7 @@
 ﻿using AudioPlayer2.Model;
 using System;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace AudioPlayer2.Logic
 {
@@ -8,6 +9,8 @@ namespace AudioPlayer2.Logic
     internal class AudioController
     {
         private LocalPlayer pleyer;
+        private readonly DispatcherTimer dispatcherTimer;
+        private Action increasePositionByOneSecond;
 
         public void PauseAudio(object obj)
         {
@@ -25,11 +28,12 @@ namespace AudioPlayer2.Logic
         public void StopAudio(object obj)
         {
             pleyer.Stop();
-            
+            dispatcherTimer?.Stop();
         }
         public void PlayAudio(object obj)
         {
             pleyer.Play();
+            dispatcherTimer.Start();
         }
         public void GoTo(object obj)
         {
@@ -39,11 +43,19 @@ namespace AudioPlayer2.Logic
         public AudioController()
         {
             pleyer = new LocalPlayer();
+            dispatcherTimer = new DispatcherTimer();
+            dispatcherTimer.Interval = TimeSpan.FromSeconds(1);
+            dispatcherTimer.Tick += DispatcherTimer_Tick;
         }
 
         internal void SetPositionControlToPlayer(Action increasePositionByOneSecond)
         {
-            pleyer.IncreasePositionByOneSec += increasePositionByOneSecond;
+            this.increasePositionByOneSecond += increasePositionByOneSecond;
+        }
+
+        private void DispatcherTimer_Tick(object? sender, EventArgs e)
+        {
+            increasePositionByOneSecond();
         }
     }
 }
