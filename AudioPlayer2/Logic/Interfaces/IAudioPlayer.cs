@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
 
 namespace AudioPlayer2.Logic.Interfaces
 {
@@ -11,7 +8,8 @@ namespace AudioPlayer2.Logic.Interfaces
         void Play();
         void Stop();
         void Pause();
-        void GoTo();
+        void GoTo(double position);
+        public Action<Duration> SetDuration { get; set; }
         IAudioSource AudioSource { get; set; }
     }
 }

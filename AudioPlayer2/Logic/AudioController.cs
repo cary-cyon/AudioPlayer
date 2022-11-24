@@ -1,4 +1,4 @@
-﻿using AudioPlayer2.Model;
+﻿using AudioPlayer2.Logic.Interfaces;
 using System;
 using System.Windows;
 using System.Windows.Threading;
@@ -8,22 +8,26 @@ namespace AudioPlayer2.Logic
     //TODO что-то состоятельное 
     internal class AudioController
     {
-        private LocalPlayer pleyer;
+        private IAudioPlayer pleyer;
         private readonly DispatcherTimer dispatcherTimer;
         private Action increasePositionByOneSecond;
 
         public void PauseAudio(object obj)
         {
             pleyer.Pause();
+            dispatcherTimer.Stop();
         }
         //Set delegate which can set Duration in ViewModel. Use in MediaOpen Event
         public void SetDurationControlToPlayer(Action<Duration> del)
         {
             pleyer.SetDuration = del;
         }
-        public void SetSource(string filePath)
+        public void SetSource(string filePath, bool IsDownloaded)
         {
-            pleyer.AudioSource = new LocalSource(filePath);
+            if(IsDownloaded)
+                pleyer.AudioSource = new LocalSource(filePath);
+            else
+                pleyer.AudioSource = new WebSourse(filePath);
         }
         public void StopAudio(object obj)
         {

@@ -13,10 +13,9 @@ namespace AudioPlayer2.Logic
         
         public IAudioSource _audioSource;
         public Action<Duration> SetDuration { get; set; }
-        public Action IncreasePositionByOneSec { get; set; } 
         public IAudioSource AudioSource {
             get {return _audioSource;}
-            set { _audioSource = value; outputDevice.Open(new Uri(_audioSource.GetPlayable(), UriKind.Relative)); }
+            set { _audioSource = value; outputDevice.Open(_audioSource.GetPlayable()); }
         }
         public LocalPlayer() 
         { 
@@ -50,13 +49,6 @@ namespace AudioPlayer2.Logic
         {
             var audio = AudioSource.GetPlayable();
             outputDevice.Play();
-        }
-
-
-
-        public void GoTo()
-        {
-            throw new NotImplementedException();
         }
     }
 }

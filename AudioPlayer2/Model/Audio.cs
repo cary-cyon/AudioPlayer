@@ -11,5 +11,6 @@ namespace AudioPlayer2.Model
         public int Id { get; set; }
         public string FilePath { get; set; }
         public string Name { get; set; }
+        public bool IsDownlouded { get; set; }
     }
 }

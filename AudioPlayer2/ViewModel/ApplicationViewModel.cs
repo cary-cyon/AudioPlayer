@@ -102,7 +102,7 @@ namespace AudioPlayer2.ViewModel
             {
                 _selectedAudio = value;
                 //set audioSource
-                _controller.SetSource(_selectedAudio.FilePath);
+                _controller.SetSource(_selectedAudio.FilePath, _selectedAudio.IsDownlouded);
                 OnPropertyChanged(nameof(SelectedAudio));
             }
         }

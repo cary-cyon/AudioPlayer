@@ -1,4 +1,5 @@
 ﻿using AudioPlayer2.Logic.Interfaces;
+using System;
 
 namespace AudioPlayer2.Logic
 {
@@ -9,9 +10,9 @@ namespace AudioPlayer2.Logic
         {
             audioFile = filePath;
         }
-        public string GetPlayable()
+        public Uri GetPlayable()
         {
-            return audioFile;
+            return new Uri(audioFile, UriKind.Relative);
         }
     }
 }

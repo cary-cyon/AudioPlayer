@@ -1,7 +1,9 @@
-﻿namespace AudioPlayer2.Logic.Interfaces
+﻿using System;
+
+namespace AudioPlayer2.Logic.Interfaces
 {
     internal interface IAudioSource
     {
-        string GetPlayable();
+        Uri GetPlayable();
     }
 }
